@@ -34,6 +34,7 @@ namespace Capstone.Api.Services.Controllers
         [HttpGet("/{id}")]
         public async Task<IActionResult> GetRequestById(int id)
         {
+            List<Request> requests = new List<Request>();
             var request = await RequestRepository.GetRequestById(id);
 
             if (request == null)
@@ -41,7 +42,9 @@ namespace Capstone.Api.Services.Controllers
                 return NotFound();
             }
 
-            var requestViewModel = _mapper.Map<IEnumerable<RequestViewModel>>(request);
+            requests.Add(request);
+
+            var requestViewModel = _mapper.Map<IEnumerable<RequestViewModel>>(requests);
 
             return Ok(requestViewModel);
         }

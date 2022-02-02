@@ -6,19 +6,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Capstone.Data.Entities.Models
 {
-    [Table("User")]
-    public partial class User
+    [Table("SubRoleMatrix")]
+    public partial class SubRoleMatrix
     {
         [Key]
-        public int UserId { get; set; }
+        public int SubRoleMatrixId { get; set; }
+        public int? RecordTypeId { get; set; }
         public int SubRoleId { get; set; }
-        [StringLength(50)]
-        public string Username { get; set; } = null!;
-        public byte[] PasswordHash { get; set; } = null!;
-        public byte[] PasswordSalt { get; set; } = null!;
 
         [ForeignKey(nameof(SubRoleId))]
-        [InverseProperty("Users")]
+        [InverseProperty("SubRoleMatrices")]
         public virtual SubRole SubRole { get; set; } = null!;
     }
 }

@@ -26,7 +26,7 @@ namespace Capstone.Api.Services.Helpers
             {
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role.RoleName)
+                new Claim(ClaimTypes.Role, user.SubRole.Role.RoleName)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Settings:SecretKey").Value));

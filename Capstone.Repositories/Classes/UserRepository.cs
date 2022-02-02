@@ -25,12 +25,12 @@ namespace Capstone.Repositories.Classes
         #region Public Methods
         public async Task<User> GetById(int id)
         {
-            return await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.UserId == id);
+            return await _context.Users.Include(u => u.SubRole.Role).FirstOrDefaultAsync(u => u.UserId == id);
         }
 
         public async Task<User> GetByUsername(string username)
         {
-            return await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == username);
+            return await _context.Users.Include(u => u.SubRole.Role).FirstOrDefaultAsync(u => u.Username == username);
         }
 
         public async Task<User> Register(User user)
@@ -43,7 +43,7 @@ namespace Capstone.Repositories.Classes
 
         public async Task<Role> GetRoleByRoleName(string roleName)
         {
-            var role = await _context.Roles.FirstOrDefaultAsync(r => r.RoleName == roleName);
+            var role = await _context.Roles.Include(r => r.SubRoles).FirstOrDefaultAsync(r => r.RoleName == roleName);
 
             return role;
         }
