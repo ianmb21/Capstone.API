@@ -6,5 +6,6 @@
         public string Username { get; set; }
         public string RoleName { get; set; }
         public string JwtToken { get; set; }
+        public int SubRoleId { get; set; }
     }
 }
