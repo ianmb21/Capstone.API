@@ -74,7 +74,17 @@ namespace Capstone.Repositories.Classes
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Request>> GetIssuerRequest(string requestStatus)
+        public async Task UpdateRequestStatus(Request request)
+        {
+            var forApproval = _context.Requests.First(r =>
+            r.RequestId == request.RequestId);
+
+            forApproval.RequestStatus = request.RequestStatus;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Request>> GetIssuerRequest()
         {
             if (String.IsNullOrEmpty(requestStatus) || requestStatus == "All")
             {
