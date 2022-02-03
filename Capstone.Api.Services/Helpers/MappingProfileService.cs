@@ -12,7 +12,7 @@ namespace Capstone.Api.Services.Helpers
             CreateMap<User, UserViewModel>()
                 .ForMember(dest =>
                     dest.RoleName,
-                    opt => opt.MapFrom(src => src.Role.RoleName));
+                    opt => opt.MapFrom(src => src.SubRole.Role.RoleName));
             CreateMap<Request, RequestViewModel>()
                 .ForMember(dest =>
                     dest.RecordTypeName,

@@ -53,7 +53,7 @@ namespace Capstone.Api.Services.Controllers
                 Username = request.Username,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                RoleId = role.RoleId
+                SubRoleId = role.SubRoles.FirstOrDefault(r => r.Role.RoleName == role.RoleName).SubRoleId,
             };
 
             return Created("success", await UserRepository.Register(user));
