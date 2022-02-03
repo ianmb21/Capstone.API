@@ -74,12 +74,17 @@ namespace Capstone.Repositories.Classes
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Request>> GetIssuerRequest()
+        public async Task<List<Request>> GetIssuerRequest(string requestStatus)
         {
-            var request = await _context.Requests.Include(r => r.RecordType).Where(r =>
-            r.RequestStatus == "New Request").ToListAsync();
-
-            return request;
+            if (String.IsNullOrEmpty(requestStatus) || requestStatus == "All")
+            {
+                
+                return await _context.Requests.Include(r => r.RecordType).ToListAsync();
+            }
+            else
+            {
+                return await _context.Requests.Include(r => r.RecordType).Where(r => r.RequestStatus == requestStatus).ToListAsync();
+            }
         }
         #endregion
     }

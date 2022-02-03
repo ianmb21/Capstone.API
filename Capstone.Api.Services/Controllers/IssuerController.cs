@@ -46,11 +46,11 @@ namespace Capstone.Api.Services.Controllers
         #endregion
 
         #region Public Methods
-        [HttpGet("getRequest")]
+        [HttpGet("getRequest/{requestStatus}")]
         [Authorize(Roles = "Issuer")]
-        public async Task<IActionResult> GetIssuerRequests()
+        public async Task<IActionResult> GetIssuerRequests(string requestStatus)
         {
-            var request = await RequestRepository.GetIssuerRequest();
+            var request = await RequestRepository.GetIssuerRequest(requestStatus);
 
             if (request == null)
             {
