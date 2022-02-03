@@ -9,6 +9,7 @@ namespace Capstone.Repositories.Interfaces
         Task<Request> GetRequestById(int id);
         Task<List<Request>> CreateHolderRequest(List<Request> requests);
         Task<List<Request>> GetHolderRequest(int id);
+        Task<List<Request>> GetIssuerRequest(string requestStatus);
         Task<List<Request>> GetIssuerRequest();
         Task UpdateRequestStatus(Request request);
     }

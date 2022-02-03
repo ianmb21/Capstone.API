@@ -86,10 +86,15 @@ namespace Capstone.Repositories.Classes
 
         public async Task<List<Request>> GetIssuerRequest()
         {
-            var request = await _context.Requests.Include(r => r.RecordType).Where(r =>
-            r.RequestStatus == "New Request").ToListAsync();
-
-            return request;
+            if (String.IsNullOrEmpty(requestStatus) || requestStatus == "All")
+            {
+                
+                return await _context.Requests.Include(r => r.RecordType).ToListAsync();
+            }
+            else
+            {
+                return await _context.Requests.Include(r => r.RecordType).Where(r => r.RequestStatus == requestStatus).ToListAsync();
+            }
         }
         #endregion
     }
