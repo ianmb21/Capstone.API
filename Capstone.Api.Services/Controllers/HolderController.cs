@@ -53,6 +53,25 @@ namespace Capstone.Api.Services.Controllers
             return Ok(requestList);
         }
 
+        [HttpPut("updateRequestStatus")]
+        public async Task<IActionResult> UpdateRequestStatus([FromBody] RequestStatusDTO request)
+        {
+            var requestExist = await RequestRepository.GetRequestById(request.RequestId);
+
+            if (requestExist != null)
+            {
+                await RequestRepository.UpdateRequestStatus(new Request
+                {
+                    RequestId = request.RequestId,
+                    RequestStatus = request.RequestStatus
+                });
+
+                return Ok();
+            }
+
+            return NotFound();
+        }
+
 
         [HttpGet("getRequest/{id}")]
         public async Task<IActionResult> GetHolderRequest(int id)
@@ -64,7 +83,16 @@ namespace Capstone.Api.Services.Controllers
                 return NotFound();
             }
 
+            var newRequests = request.Where(nr => nr.RequestStatus == "Request Confirmation").ToList();
+
             var requestViewModel = _mapper.Map<IEnumerable<RequestViewModel>>(request);
+
+            foreach (var newRequest in newRequests)
+            {
+                var hasRecord = request.Any(hr => hr.IssuedBy != null && hr.RecordTypeId == newRequest.RecordTypeId);
+
+                requestViewModel.FirstOrDefault(rvm => rvm.RequestId == newRequest.RequestId).HasRecord = hasRecord;
+            }
 
             return Ok(requestViewModel);
         }
