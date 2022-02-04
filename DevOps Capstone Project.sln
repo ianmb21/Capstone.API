@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Capstone.API", "Capstone.API", "{0EA25194-A02A-4948-91E9-9C38263A7483}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Capstone.Data", "Capstone.Data", "{3001F461-575B-4E91-9F76-A25029988997}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Capstone.Api.Services", "Capstone.Api.Services\Capstone.Api.Services.csproj", "{214EE019-78D4-48EC-9F4D-91529F063564}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Capstone.Data.Entities", "Capstone.Data.Entities\Capstone.Data.Entities.csproj", "{42F00FDA-23F8-438A-82FB-F1768692D14D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Capstone.Repositories", "Capstone.Repositories\Capstone.Repositories.csproj", "{96E4066E-1E3B-45F4-BBA6-D101E6F91960}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Capstone.DTOs", "Capstone.DTOs\Capstone.DTOs.csproj", "{588B36EE-872E-4103-AF06-9925A8F639B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "manifests", "manifests", "{8459BFA6-83CE-4BBC-8FC9-5F351D883777}"
+	ProjectSection(SolutionItems) = preProject
+		deployment.yml = deployment.yml
+		services.yml = services.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D84D8314-1AF2-4652-AEB9-403E5BDD15D1}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile.txt = Dockerfile.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{214EE019-78D4-48EC-9F4D-91529F063564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{214EE019-78D4-48EC-9F4D-91529F063564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{214EE019-78D4-48EC-9F4D-91529F063564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{214EE019-78D4-48EC-9F4D-91529F063564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42F00FDA-23F8-438A-82FB-F1768692D14D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42F00FDA-23F8-438A-82FB-F1768692D14D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42F00FDA-23F8-438A-82FB-F1768692D14D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42F00FDA-23F8-438A-82FB-F1768692D14D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96E4066E-1E3B-45F4-BBA6-D101E6F91960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96E4066E-1E3B-45F4-BBA6-D101E6F91960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96E4066E-1E3B-45F4-BBA6-D101E6F91960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96E4066E-1E3B-45F4-BBA6-D101E6F91960}.Release|Any CPU.Build.0 = Release|Any CPU
+		{588B36EE-872E-4103-AF06-9925A8F639B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{588B36EE-872E-4103-AF06-9925A8F639B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{588B36EE-872E-4103-AF06-9925A8F639B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{588B36EE-872E-4103-AF06-9925A8F639B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{214EE019-78D4-48EC-9F4D-91529F063564} = {0EA25194-A02A-4948-91E9-9C38263A7483}
+		{42F00FDA-23F8-438A-82FB-F1768692D14D} = {3001F461-575B-4E91-9F76-A25029988997}
+		{96E4066E-1E3B-45F4-BBA6-D101E6F91960} = {3001F461-575B-4E91-9F76-A25029988997}
+		{588B36EE-872E-4103-AF06-9925A8F639B0} = {3001F461-575B-4E91-9F76-A25029988997}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {11509A66-6D8E-42E9-9FAC-50D883D2B821}
+	EndGlobalSection
+EndGlobal
