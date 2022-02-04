@@ -240,3 +240,4 @@ _Pvt_Extensions
  
 # FAKE - F# Make 
 .fake/
+.vs/DevOps Capstone Project/v17/.suo
