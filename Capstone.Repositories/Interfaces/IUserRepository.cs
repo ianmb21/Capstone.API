@@ -8,5 +8,6 @@ namespace Capstone.Repositories.Interfaces
         Task<User> GetByUsername(string username);
         Task<User> GetById(int id);
         Task<Role> GetRoleByRoleName(string roleName);
+        Task<List<SubRoleMatrix>> GetRecordTypeByUserId(int userId);
     }
 }

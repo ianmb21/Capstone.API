@@ -111,6 +111,21 @@ namespace Capstone.Repositories.Classes
                 return await _context.Requests.Include(r => r.RecordType).Where(r => r.RequestStatus == requestStatus).ToListAsync();
             }
         }
+
+        public async Task<List<Request>> CreateVerifierRequest(List<Request> requests)
+        {
+            _context.Requests.AddRange(requests);
+            await _context.SaveChangesAsync();
+
+            foreach (var request in requests)
+            {
+                var req = await GetRequestById(request.RequestId);
+
+                request.RecordType = req.RecordType;
+            }
+
+            return requests;
+        }
         #endregion
     }
 }

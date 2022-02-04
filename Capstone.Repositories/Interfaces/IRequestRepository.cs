@@ -12,5 +12,6 @@ namespace Capstone.Repositories.Interfaces
         Task<List<Request>> GetIssuerRequest(string requestStatus);
         //Task<List<Request>> GetIssuerRequest();
         Task UpdateRequestStatus(Request request);
+        Task<List<Request>> CreateVerifierRequest(List<Request> requests);
     }
 }

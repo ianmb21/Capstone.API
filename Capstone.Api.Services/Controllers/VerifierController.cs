@@ -17,16 +17,19 @@ namespace Capstone.Api.Services.Controllers
         private readonly IRequestRepository RequestRepository;
         private readonly IUserRepository UserRepository;
         private readonly IMapper _mapper;
+        private readonly IHolderRepository HolderRepository;
         #endregion
 
         #region Constructor
         public VerifierController(IRequestRepository requestRepository,
             IUserRepository userRepository,
-            IMapper mapper) 
+            IMapper mapper,
+            IHolderRepository holderRepository) 
         {
             RequestRepository = requestRepository;
             UserRepository = userRepository;
             _mapper = mapper;
+            HolderRepository = holderRepository;
         }
         #endregion
 
@@ -85,6 +88,52 @@ namespace Capstone.Api.Services.Controllers
             }
 
             return NotFound();
+        }
+
+        [HttpPost("searchHolder")]
+        public async Task<IActionResult> SearchHolder([FromBody] SearchDTO search)
+        {
+            var request = await HolderRepository.GetHolderByName(search.FirstName, search.LastName);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(request);
+        }
+
+        [HttpPost("createRequest")]
+        public async Task<IActionResult> CreateVerifierRequest([FromBody] RequestDTO req)
+        {
+            List<Request> requests = new List<Request>();
+
+            foreach (int id in req.RecordTypeId)
+            {
+                requests.Add(new Request
+                {
+                    UserId = req.UserId,
+                    NationalId = req.NationalId,
+                    RecordTypeId = id,
+                    FirstName = req.FirstName,
+                    LastName = req.LastName,
+                    Birthdate = req.Birthdate,
+                    DateRequested = DateTime.Now,
+                    RequestStatus = "Request Confirmation",
+                    Purpose = req.Remarks,
+                });
+            }
+
+            var requestList = _mapper.Map<IEnumerable<RequestViewModel>>(await RequestRepository.CreateVerifierRequest(requests));
+            return Ok(requestList);
+        }
+
+        [HttpGet("getRecordType/{id}")]
+        public async Task<IActionResult> GetRecordType(int id)
+        {
+            var subRoleID = await UserRepository.GetRecordTypeByUserId(id);
+
+            return Ok(subRoleID);
         }
         #endregion
     }

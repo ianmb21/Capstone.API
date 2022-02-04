@@ -47,6 +47,23 @@ namespace Capstone.Repositories.Classes
 
             return role;
         }
+
+        public async Task<Role> GetRoleByRoleName(string roleName)
+        {
+            var role = await _context.Roles.FirstOrDefaultAsync(r => r.RoleName == roleName);
+
+            return role;
+        }
+
+        public async Task<List<SubRoleMatrix>> GetRecordTypeByUserId(int userId)
+        {
+            int subRoleId = await _context.Users.Where(u => u.UserId == userId).Select(u => u.SubRoleId).FirstOrDefaultAsync();
+
+            var recordType = await _context.SubRoleMatrices.Include(r => r.RecordTypeId).Where(s => s.SubRoleId == subRoleId)
+                .ToListAsync();
+
+            return recordType;
+        }
         #endregion
     }
 }
