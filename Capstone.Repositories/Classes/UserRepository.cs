@@ -52,7 +52,7 @@ namespace Capstone.Repositories.Classes
         {
             int subRoleId = await _context.Users.Where(u => u.UserId == userId).Select(u => u.SubRoleId).FirstOrDefaultAsync();
 
-            var recordType = await _context.SubRoleMatrices.Include(r => r.RecordTypeId).Where(s => s.SubRoleId == subRoleId)
+            var recordType = await _context.SubRoleMatrices.Where(s => s.SubRoleId == subRoleId)
                 .ToListAsync();
 
             return recordType;
