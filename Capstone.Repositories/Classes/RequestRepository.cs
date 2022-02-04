@@ -55,7 +55,7 @@ namespace Capstone.Repositories.Classes
         {
             var requests = await _context.Requests
                 .Include(r => r.RecordType)
-                .Where(r => r.UserId == id)
+                .Where(r => r.HolderId == id)
                 .ToListAsync();
             
             return requests;
