@@ -16,6 +16,7 @@ namespace Capstone.Data.Entities.Models
         public string Username { get; set; } = null!;
         public byte[] PasswordHash { get; set; } = null!;
         public byte[] PasswordSalt { get; set; } = null!;
+        public int? HolderId { get; set; }
 
         [ForeignKey(nameof(SubRoleId))]
         [InverseProperty("Users")]

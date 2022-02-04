@@ -39,6 +39,7 @@ namespace Capstone.Data.Entities.Models
         public DateTime Birthdate { get; set; }
         [StringLength(200)]
         public string? Purpose { get; set; }
+        public int? HolderId { get; set; }
 
         public virtual Holder National { get; set; } = null!;
         [ForeignKey(nameof(RecordTypeId))]
