@@ -121,6 +121,7 @@ namespace Capstone.Api.Services.Controllers
                     DateRequested = DateTime.Now,
                     RequestStatus = "Request Confirmation",
                     Purpose = req.Remarks,
+                    HolderId = req.HolderId,
                 });
             }
 

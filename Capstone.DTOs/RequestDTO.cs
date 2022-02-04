@@ -17,5 +17,6 @@ namespace Capstone.DTOs
         public string RequestStatus { get; set; }
         public int[] RecordTypeId { get; set; }
         public string? Remarks { get; set; }
+        public int? HolderId { get; set; }
     }
 }
