@@ -45,7 +45,8 @@ namespace Capstone.Repositories.Classes
         public async Task<List<Request>> GetVerifierRequests()
         {
             var request = await _context.Requests.Include(r => r.RecordType).Where(r => 
-            r.RequestStatus == "For Verification").ToListAsync();
+            r.RequestStatus == "For Verification" ||
+            r.RequestStatus == "Revoked").ToListAsync();
 
             return request;
         }
@@ -76,15 +77,29 @@ namespace Capstone.Repositories.Classes
 
         public async Task UpdateRequestStatus(Request request)
         {
-            var forApproval = _context.Requests.First(r =>
+            var updatingRequest = _context.Requests.First(r =>
             r.RequestId == request.RequestId);
 
-            forApproval.RequestStatus = request.RequestStatus;
+            if (request.RequestStatus == "For Verification" && updatingRequest.IssuedBy == null)
+            {
+                var issuedRequest = _context.Requests
+                    .Where(r =>
+                        r.UserId == updatingRequest.UserId &&
+                        r.RecordTypeId == updatingRequest.RecordTypeId &&
+                        r.IssuedBy != null)
+                    .OrderByDescending(r => r.DateIssued)
+                    .First();
+
+                updatingRequest.IssuedBy = issuedRequest.IssuedBy;
+                updatingRequest.DateIssued = issuedRequest.DateIssued;
+            }
+
+            updatingRequest.RequestStatus = request.RequestStatus;
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Request>> GetIssuerRequest()
+        public async Task<List<Request>> GetIssuerRequest(string requestStatus)
         {
             if (String.IsNullOrEmpty(requestStatus) || requestStatus == "All")
             {
