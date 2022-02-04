@@ -18,18 +18,21 @@ namespace Capstone.Api.Services.Controllers
         private readonly JwtService JwtService;
         private readonly PasswordService PasswordService;
         private readonly IMapper _mapper;
+        private readonly IHolderRepository HolderRepository;
         #endregion
 
         #region Constructor
         public AuthController(IUserRepository userRepository,
             JwtService jwtService,
             PasswordService passwordService,
-            IMapper mapper)
+            IMapper mapper,
+            IHolderRepository holderRepository)
         {
             UserRepository = userRepository;
             JwtService = jwtService;
             PasswordService = passwordService;
             _mapper = mapper;
+            HolderRepository = holderRepository;
         }
         #endregion
 
@@ -48,12 +51,15 @@ namespace Capstone.Api.Services.Controllers
 
             var role = await UserRepository.GetRoleByRoleName(request.RoleName);
 
+            var holder = await HolderRepository.GetHolderByNationalId(request.NationalId);
+
             var user = new User
             {
                 Username = request.Username,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 SubRoleId = role.SubRoles.FirstOrDefault(r => r.Role.RoleName == role.RoleName).SubRoleId,
+                HolderId = holder?.FirstOrDefault(h => h.NationalId == request.NationalId).HolderId,
             };
 
             return Created("success", await UserRepository.Register(user));
