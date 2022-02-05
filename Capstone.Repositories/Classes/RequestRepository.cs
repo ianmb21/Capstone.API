@@ -74,16 +74,29 @@ namespace Capstone.Repositories.Classes
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Request>> GetIssuerRequest(string requestStatus)
+        public async Task<List<Request>> GetIssuerRequest(string requestStatus, string userId)
         {
+
+            //var user = await _context.Users.Where(user => user.UserId == int.Parse(userId)).ToListAsync();
+            //var subRoles = await _context.SubRoles.Where(s => user..Contains(s.SubRoleId)).ToListAsync();
+
+
+
+
             if (String.IsNullOrEmpty(requestStatus) || requestStatus == "All")
             {
-                
-                return await _context.Requests.Include(r => r.RecordType).ToListAsync();
+
+                //return await _context.Requests.Include(r => r.RecordType).ToListAsync();
+                return await _context.Requests.FromSqlInterpolated($@"
+                    select * from Request where RecordTypeId in ( select RecordTypeId from SubRoleMatrix where SubRoleId in (select SubRoleId from [dbo].[User] where UserId = {userId}) )
+                ").ToListAsync();
             }
             else
             {
-                return await _context.Requests.Include(r => r.RecordType).Where(r => r.RequestStatus == requestStatus).ToListAsync();
+                //return await _context.Requests.Include(r => r.RecordType).Where(r => r.RequestStatus == requestStatus).ToListAsync();
+                return await _context.Requests.FromSqlInterpolated($@"
+                    select * from Request where RecordTypeId in ( select RecordTypeId from SubRoleMatrix where SubRoleId in (select SubRoleId from [dbo].[User] where UserId = {userId}) )
+                ").ToListAsync();
             }
         }
         #endregion
