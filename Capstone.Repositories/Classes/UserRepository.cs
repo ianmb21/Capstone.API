@@ -47,6 +47,14 @@ namespace Capstone.Repositories.Classes
 
             return role;
         }
+
+        public async Task<List<SubRoleMatrix>> GetRecordTypeByUserId(int subRoleId)
+        {
+            var recordType = await _context.SubRoleMatrices.Where(s => s.SubRoleId == subRoleId)
+                .ToListAsync();
+
+            return recordType;
+        }
         #endregion
     }
 }

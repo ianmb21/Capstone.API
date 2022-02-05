@@ -45,7 +45,8 @@ namespace Capstone.Repositories.Classes
         public async Task<List<Request>> GetVerifierRequests()
         {
             var request = await _context.Requests.Include(r => r.RecordType).Where(r => 
-            r.RequestStatus == "For Verification").ToListAsync();
+            r.RequestStatus == "For Verification" ||
+            r.RequestStatus == "Revoked").ToListAsync();
 
             return request;
         }
@@ -54,7 +55,7 @@ namespace Capstone.Repositories.Classes
         {
             var requests = await _context.Requests
                 .Include(r => r.RecordType)
-                .Where(r => r.UserId == id)
+                .Where(r => r.HolderId == id)
                 .ToListAsync();
             
             return requests;
@@ -74,15 +75,37 @@ namespace Capstone.Repositories.Classes
             await _context.SaveChangesAsync();
         }
 
+        
+        public async Task UpdateRequestStatus(Request request)
+        {
+            var updatingRequest = _context.Requests.First(r =>
+            r.RequestId == request.RequestId);
+
+            if (request.RequestStatus == "For Verification" && updatingRequest.IssuedBy == null)
+            {
+                var issuedRequest = _context.Requests
+                    .Where(r =>
+                        r.UserId == updatingRequest.UserId &&
+                        r.RecordTypeId == updatingRequest.RecordTypeId &&
+                        r.IssuedBy != null)
+                    .OrderByDescending(r => r.DateIssued)
+                    .First();
+
+                updatingRequest.IssuedBy = issuedRequest.IssuedBy;
+                updatingRequest.DateIssued = issuedRequest.DateIssued;
+            }
+
+            updatingRequest.RequestStatus = request.RequestStatus;
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Request>> GetIssuerRequest(string requestStatus, string userId)
         {
 
             //var user = await _context.Users.Where(user => user.UserId == int.Parse(userId)).ToListAsync();
             //var subRoles = await _context.SubRoles.Where(s => user..Contains(s.SubRoleId)).ToListAsync();
-
-
-
-
+            
             if (String.IsNullOrEmpty(requestStatus) || requestStatus == "All")
             {
 
@@ -98,6 +121,21 @@ namespace Capstone.Repositories.Classes
                     select * from Request where RecordTypeId in ( select RecordTypeId from SubRoleMatrix where SubRoleId in (select SubRoleId from [dbo].[User] where UserId = {userId}) )
                 ").ToListAsync();
             }
+        }
+
+        public async Task<List<Request>> CreateVerifierRequest(List<Request> requests)
+        {
+            _context.Requests.AddRange(requests);
+            await _context.SaveChangesAsync();
+
+            foreach (var request in requests)
+            {
+                var req = await GetRequestById(request.RequestId);
+
+                request.RecordType = req.RecordType;
+            }
+
+            return requests;
         }
         #endregion
     }

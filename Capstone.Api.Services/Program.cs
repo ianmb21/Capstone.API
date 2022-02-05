@@ -38,6 +38,7 @@ builder.Services.AddScoped<ICriminalRecordRepository, CriminalRecordRepository>(
 builder.Services.AddScoped<IEducationRecordRepository, EducationRecordRepository>();
 builder.Services.AddScoped<IEmploymentHistoryRepository, EmploymentHistoryRepository>();
 builder.Services.AddScoped<IIdentityDetailRepository, IdentityDetailRepository>();
+builder.Services.AddScoped<IHolderRepository, HolderRepository>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddControllers();
