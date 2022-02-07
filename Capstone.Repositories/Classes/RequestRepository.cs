@@ -42,13 +42,32 @@ namespace Capstone.Repositories.Classes
             return request;
         }
 
-        public async Task<List<Request>> GetVerifierRequests()
+        public async Task<List<Request>> GetVerifierRequests(string requestStatus, string userId)
         {
+            /*
             var request = await _context.Requests.Include(r => r.RecordType).Where(r => 
             r.RequestStatus == "For Verification" ||
             r.RequestStatus == "Revoked").ToListAsync();
+            */
 
-            return request;
+
+            var subRoleMatix = await _context.SubRoleMatrices.FromSqlInterpolated($@"select * from SubRoleMatrix where SubRoleId in (select SubRoleId from [dbo].[User] where UserId = {userId})").ToListAsync();
+
+            var list2 = subRoleMatix.Select(a => a.RecordTypeId).ToList();
+
+            var where2 = string.Join(",", list2);
+
+
+            var x = subRoleMatix.ToList();
+
+            if (String.IsNullOrEmpty(requestStatus) || requestStatus == "All")
+            {
+                return await _context.Requests.Include(r => r.RecordType).Where(r => list2.Contains(r.RecordTypeId)).ToListAsync();
+            }
+            else
+            {
+                return await _context.Requests.Include(r => r.RecordType).Where(r => list2.Contains(r.RecordTypeId)).Where(r => r.RequestStatus == requestStatus).ToListAsync();
+            }
         }
 
         public async Task<List<Request>> GetHolderRequest(int id)

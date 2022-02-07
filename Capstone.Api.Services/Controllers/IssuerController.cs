@@ -58,42 +58,34 @@ namespace Capstone.Api.Services.Controllers
             //var claims = ClaimsPrincipal.Current.Identities.First().Claims.ToList();
             //var user = claims?.FirstOrDefault(x => x.Type.Equals("NameIdentifier", StringComparison.OrdinalIgnoreCase))?.Value;
 
-
             /*
             var identity = User.Identity as ClaimsIdentity;
-
             IEnumerable<Claim> claims = identity.Claims;
             var name = claims.Where(p => p.ValueType == "NameIdentifier").FirstOrDefault()?.Value;
             ClaimTypes.NameIdentifier
-
             string username = name;
-         
             */
 
+            /*
+              select* from[dbo].[User] where UserId = 10
+              select* from SubRole
+              select* from SubRoleMatrix where SubRoleId = 1
+              1 is to 1 issuer
+              select* from Request where RecordTypeId = 1(select * from SubRoleMatrix where SubRoleId = 1 )
+             --
+            select* from[dbo].[User] where UserId = 10
+            select* from SubRole
+            select* from SubRoleMatrix where SubRoleId in (select SubRoleId from[dbo].[User] where UserId = 10)
+            1 is to 1 issuer
 
-/*
-  select* from[dbo].[User] where UserId = 10
-  select* from SubRole
-  select* from SubRoleMatrix where SubRoleId = 1
-  1 is to 1 issuer
-  select* from Request where RecordTypeId = 1(select * from SubRoleMatrix where SubRoleId = 1 )
- --
-
-
-  select* from[dbo].[User] where UserId = 10
-  select* from SubRole
-  select* from SubRoleMatrix where SubRoleId in (select SubRoleId from[dbo].[User] where UserId = 10)
-  1 is to 1 issuer
-
-
-  select* from Request where RecordTypeId in (select RecordTypeId from SubRoleMatrix where SubRoleId in (select SubRoleId from[dbo].[User] where UserId = 10) )
-  --
-  --verifier example
-  select* from SubRoleMatrix where SubRoleId = 7
-
-*/
-
+           select* from Request where RecordTypeId in (select RecordTypeId from SubRoleMatrix where SubRoleId in (select SubRoleId from[dbo].[User] where UserId = 10) )
+           --
+           --verifier example
+           select* from SubRoleMatrix where SubRoleId = 7
+            */
             //--------------------
+
+
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var request = await RequestRepository.GetIssuerRequest(requestStatus, userId);
@@ -143,7 +135,6 @@ namespace Capstone.Api.Services.Controllers
             {
                 return NotFound();
             }
-
             return Ok(record);
         }
 
