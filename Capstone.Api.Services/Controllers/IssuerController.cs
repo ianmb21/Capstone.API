@@ -86,7 +86,7 @@ namespace Capstone.Api.Services.Controllers
             //--------------------
 
 
-
+            requestStatus = System.Web.HttpUtility.UrlDecode(requestStatus);
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var request = await RequestRepository.GetIssuerRequest(requestStatus, userId);
 
