@@ -41,25 +41,28 @@ namespace Capstone.Api.Services.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterDTO request) 
         {
             var userExist = await UserRepository.GetByUsername(request.Username);
+            var role = await UserRepository.GetRoleByRoleName(request.RoleName);
+            var holder = await HolderRepository.GetHolderByNationalId(request.NationalId);
 
             if (userExist != null)
             {
                 return BadRequest("User already exists.");
             }
 
+            if (holder == null)
+            {
+                return BadRequest("National Id does not exist!");
+            }
+
             PasswordService.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
-
-            var role = await UserRepository.GetRoleByRoleName(request.RoleName);
-
-            var holder = await HolderRepository.GetHolderByNationalId(request.NationalId);
 
             var user = new User
             {
                 Username = request.Username,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                SubRoleId = role.SubRoles.FirstOrDefault(r => r.Role.RoleName == role.RoleName).SubRoleId,
-                HolderId = holder?.FirstOrDefault(h => h.NationalId == request.NationalId).HolderId,
+                SubRoleId = role.SubRoles.First(r => r.Role.RoleName == role.RoleName).SubRoleId,
+                HolderId = holder.HolderId,
             };
 
             return Created("success", await UserRepository.Register(user));
