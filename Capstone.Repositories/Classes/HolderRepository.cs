@@ -23,9 +23,9 @@ namespace Capstone.Repositories.Classes
             var holderDetail = await _context.Holders.Where(r => r.FirstName == firstName && r.LastName == lastName).ToListAsync();
             return holderDetail;
         }
-        public async Task<List<Holder>> GetHolderByNationalId(string nationalId)
+        public async Task<Holder> GetHolderByNationalId(string nationalId)
         {
-            var holderDetail = await _context.Holders.Where(r => r.NationalId == nationalId).ToListAsync();
+            var holderDetail = await _context.Holders.FirstOrDefaultAsync(r => r.NationalId == nationalId);
             return holderDetail;
         }
 
