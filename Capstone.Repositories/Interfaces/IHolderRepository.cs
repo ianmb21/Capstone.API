@@ -5,5 +5,6 @@ namespace Capstone.Repositories.Interfaces
     {
         Task<List<Holder>> GetHolderByName(string firstName, string lastName);
         Task<List<Holder>> GetHolderByNationalId(string nationalId);
+        Task<string> GetNationalIdByUserId(int id);
     }
 }
