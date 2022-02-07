@@ -70,7 +70,7 @@ namespace Capstone.Repositories.Classes
             }
         }
 
-        public async Task<List<Request>> GetHolderRequest(int id)
+        public async Task<List<Request>> GetHolderRequest(int id, string requestStatus)
         {
             var requests = await _context.Requests
                 .Include(r => r.RecordType)

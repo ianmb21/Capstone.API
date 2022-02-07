@@ -73,10 +73,10 @@ namespace Capstone.Api.Services.Controllers
         }
 
 
-        [HttpGet("getRequest/{id}")]
-        public async Task<IActionResult> GetHolderRequest(int id)
+        [HttpGet("getRequest/{id}/{requestStatus}")]
+        public async Task<IActionResult> GetHolderRequest(int id, string requestStatus)
         {
-            var request = await RequestRepository.GetHolderRequest(id);
+            var request = await RequestRepository.GetHolderRequest(id, requestStatus);
 
             if (request == null)
             {
