@@ -28,6 +28,13 @@ namespace Capstone.Repositories.Classes
             var holderDetail = await _context.Holders.Where(r => r.NationalId == nationalId).ToListAsync();
             return holderDetail;
         }
+
+        public async Task<string> GetNationalIdByUserId(int id)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            var holder = await _context.Holders.FirstOrDefaultAsync(h => h.HolderId == user.HolderId);
+            return holder.NationalId;
+        }
         #endregion
     }
 }
