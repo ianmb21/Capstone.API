@@ -72,12 +72,21 @@ namespace Capstone.Repositories.Classes
 
         public async Task<List<Request>> GetHolderRequest(int id, string requestStatus)
         {
+            /*
             var requests = await _context.Requests
                 .Include(r => r.RecordType)
                 .Where(r => r.HolderId == id)
                 .ToListAsync();
-            
-            return requests;
+            */
+
+            if (String.IsNullOrEmpty(requestStatus) || requestStatus == "All")
+            {
+                return await _context.Requests.Include(r => r.RecordType).Where(r => r.HolderId == id).ToListAsync();
+            }
+            else
+            {
+                return await _context.Requests.Include(r => r.RecordType).Where(r => r.HolderId == id).Where(r => r.RequestStatus == requestStatus).ToListAsync();
+            }
         }
         public async Task UpdateRequest(Request request)
         {
