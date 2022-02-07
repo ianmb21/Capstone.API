@@ -125,19 +125,6 @@ namespace Capstone.Api.Services.Controllers
             return Ok("Success");
 
         }
-
-        [HttpGet("getNationalId/{id}")]
-        public async Task<IActionResult> GetNationalId(int id)
-        {
-            var nationalId = HolderRepository.GetNationalIdByUserId(id);
-
-            if (nationalId == null)
-            {
-                return BadRequest("National Id does not exist!");
-            }
-
-            return Ok(nationalId);
-        }
         #endregion
     }
 }

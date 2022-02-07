@@ -17,13 +17,16 @@ namespace Capstone.Api.Services.Controllers
         #region Private Properties
         private readonly IRequestRepository RequestRepository;
         private readonly IMapper _mapper;
+        private readonly IHolderRepository HolderRepository;
         #endregion
 
         #region Constructor
         public HolderController(IRequestRepository requestRepository,
+            IHolderRepository holderRepository,
             IMapper mapper)
         {
             RequestRepository = requestRepository;
+            HolderRepository = holderRepository;
             _mapper = mapper;
         }
         #endregion
@@ -96,6 +99,19 @@ namespace Capstone.Api.Services.Controllers
             }
 
             return Ok(requestViewModel);
+        }
+
+        [HttpGet("getNationalId/{id}")]
+        public async Task<IActionResult> GetNationalId(int id)
+        {
+            var nationalId = await HolderRepository.GetNationalIdByUserId(id);
+
+            if (nationalId == null)
+            {
+                return BadRequest("National Id does not exist!");
+            }
+
+            return Ok(nationalId);
         }
         #endregion
     }
