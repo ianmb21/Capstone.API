@@ -6,6 +6,10 @@ using Capstone.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+
 namespace Capstone.Api.Services.Controllers
 {
     [Route("api/[controller]")]
@@ -52,10 +56,12 @@ namespace Capstone.Api.Services.Controllers
             return Ok(requestViewModel);
         }
 
-        [HttpGet("getRequest")]
-        public async Task<IActionResult> GetRequests()
+        [HttpGet("getRequest/{requestStatus}")]
+        public async Task<IActionResult> GetRequests(string requestStatus="All")
         {
-            var request = await RequestRepository.GetVerifierRequests();
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var request = await RequestRepository.GetVerifierRequests(requestStatus, userId);
+            requestStatus = System.Web.HttpUtility.UrlDecode(requestStatus);
 
             if (request == null)
             {

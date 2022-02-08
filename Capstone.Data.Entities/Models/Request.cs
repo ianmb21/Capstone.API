@@ -42,6 +42,7 @@ namespace Capstone.Data.Entities.Models
         public int? HolderId { get; set; }
 
         public virtual Holder National { get; set; } = null!;
+
         [ForeignKey(nameof(RecordTypeId))]
         [InverseProperty("Requests")]
         public virtual RecordType RecordType { get; set; } = null!;
