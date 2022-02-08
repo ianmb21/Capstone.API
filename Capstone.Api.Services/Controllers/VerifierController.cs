@@ -128,6 +128,7 @@ namespace Capstone.Api.Services.Controllers
                     RequestStatus = "Request Confirmation",
                     Purpose = req.Remarks,
                     HolderId = req.HolderId,
+                    VerifiedBy = req.VerifiedBy,
                 });
             }
 

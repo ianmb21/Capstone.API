@@ -21,5 +21,6 @@ namespace Capstone.Api.Services.ViewModels
         public string LastName { get; set; } = null!;
         public string Birthdate { get; set; }
         public bool HasRecord { get; set; }
+        public string? Purpose { get; set; }
     }
 }
