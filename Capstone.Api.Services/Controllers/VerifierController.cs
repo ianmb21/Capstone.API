@@ -125,7 +125,7 @@ namespace Capstone.Api.Services.Controllers
                     LastName = req.LastName,
                     Birthdate = req.Birthdate,
                     DateRequested = DateTime.Now,
-                    RequestStatus = "Request Confirmation",
+                    RequestStatus = req.RequestStatus,
                     Purpose = req.Remarks,
                     HolderId = req.HolderId,
                     VerifiedBy = req.VerifiedBy,
