@@ -62,11 +62,16 @@ namespace Capstone.Repositories.Classes
 
             if (String.IsNullOrEmpty(requestStatus) || requestStatus == "All")
             {
-                return await _context.Requests.Include(r => r.RecordType).Where(r => list2.Contains(r.RecordTypeId)).ToListAsync();
+                return await _context.Requests.Include(r => r.RecordType)
+                    .Where(r => list2.Contains(r.RecordTypeId))
+                    .Where(r => r.UserId == int.Parse(userId)).ToListAsync();
             }
             else
             {
-                return await _context.Requests.Include(r => r.RecordType).Where(r => list2.Contains(r.RecordTypeId)).Where(r => r.RequestStatus == requestStatus).ToListAsync();
+                return await _context.Requests.Include(r => r.RecordType)
+                    .Where(r => list2.Contains(r.RecordTypeId))
+                    .Where(r => r.RequestStatus == requestStatus)
+                    .Where(r => r.UserId == int.Parse(userId)).ToListAsync();
             }
         }
 
@@ -81,11 +86,14 @@ namespace Capstone.Repositories.Classes
 
             if (String.IsNullOrEmpty(requestStatus) || requestStatus == "All")
             {
-                return await _context.Requests.Include(r => r.RecordType).Where(r => r.HolderId == id).ToListAsync();
+                return await _context.Requests.Include(r => r.RecordType)
+                    .Where(r => r.HolderId == id).ToListAsync();
             }
             else
             {
-                return await _context.Requests.Include(r => r.RecordType).Where(r => r.HolderId == id).Where(r => r.RequestStatus == requestStatus).ToListAsync();
+                return await _context.Requests.Include(r => r.RecordType)
+                    .Where(r => r.HolderId == id)
+                    .Where(r => r.RequestStatus == requestStatus).ToListAsync();
             }
         }
         public async Task UpdateRequest(Request request)
@@ -109,7 +117,7 @@ namespace Capstone.Repositories.Classes
             var updatingRequest = _context.Requests.First(r =>
             r.RequestId == request.RequestId);
 
-            if (request.RequestStatus == "For Verification" && updatingRequest.IssuedBy == null)
+            if (request.RequestStatus == "PendingVerifier" && updatingRequest.IssuedBy == null)
             {
                 var issuedRequest = _context.Requests
                     .Where(r =>
@@ -141,11 +149,14 @@ namespace Capstone.Repositories.Classes
             
             if (String.IsNullOrEmpty(requestStatus) || requestStatus == "All")
             {
-                return await _context.Requests.Include(r => r.RecordType).Where(r => list2.Contains(r.RecordTypeId) ).ToListAsync();
+                return await _context.Requests.Include(r => r.RecordType)
+                    .Where(r => list2.Contains(r.RecordTypeId) ).ToListAsync();
             }
             else
             {
-                return await _context.Requests.Include(r => r.RecordType).Where(r => list2.Contains(r.RecordTypeId)).Where(r => r.RequestStatus == requestStatus).ToListAsync();
+                return await _context.Requests.Include(r => r.RecordType)
+                    .Where(r => list2.Contains(r.RecordTypeId))
+                    .Where(r => r.RequestStatus == requestStatus).ToListAsync();
             }
         }
 
