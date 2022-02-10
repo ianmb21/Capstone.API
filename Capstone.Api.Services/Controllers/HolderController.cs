@@ -87,7 +87,7 @@ namespace Capstone.Api.Services.Controllers
                 return NotFound();
             }
 
-            var newRequests = request.Where(nr => nr.RequestStatus == "Request Confirmation").ToList();
+            var newRequests = request.Where(nr => nr.RequestStatus == "PendingHolder").ToList();
 
             var requestViewModel = _mapper.Map<IEnumerable<RequestViewModel>>(request);
 
