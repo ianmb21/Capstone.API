@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Capstone.Data.Entities.Models
 {
     [Table("User")]
-    public partial class User
+    public partial class User22
     {
         [Key]
         public int UserId { get; set; }
