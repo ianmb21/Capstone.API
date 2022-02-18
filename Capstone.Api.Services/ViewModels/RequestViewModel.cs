@@ -22,6 +22,5 @@ namespace Capstone.Api.Services.ViewModels
         public string Birthdate { get; set; }
         public bool HasRecord { get; set; }
         public string? Purpose { get; set; }
-        public string? Approval { get; set; }
     }
 }
