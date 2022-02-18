@@ -1,3 +1,6 @@
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Capstone.Api.Services.Helpers;
 using Capstone.Data.Entities.Models;
 using Capstone.Repositories.Classes;
@@ -12,10 +15,26 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.ConfigureAppConfiguration((context, config) => 
+{
+    var builtConfig = config.Build();
+
+    var vaultUrl = builtConfig["KeyVaultsConfig:VaultURL"];
+    var tenantId = builtConfig["KeyVaultsConfig:TenantId"];
+    var clientId = builtConfig["KeyVaultsConfig:ClientId"];
+    var clientSecret = builtConfig["KeyVaultsConfig:ClientSecret"];
+
+    var credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+
+    var client = new SecretClient(new Uri(vaultUrl), credential);
+
+    config.AddAzureKeyVault(client, new AzureKeyVaultConfigurationOptions());
+});
+
 // Add services to the container.
 builder.Services.AddDbContext<CapstoneDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Production"));
+    options.UseSqlServer(builder.Configuration["ConnectionStrings"]);
 });
 
 var allowedOrigins = "_allowedOrigins";
