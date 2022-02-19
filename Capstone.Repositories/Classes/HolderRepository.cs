@@ -31,7 +31,7 @@ namespace Capstone.Repositories.Classes
 
         public async Task<string> GetNationalIdByUserId(int id)
         {
-            var holder = _context.Holders.FirstOrDefault(h => h.HolderId == _context.Users.FirstOrDefault(u => u.UserId == id).UserId);
+            var holder = _context.Holders.FirstOrDefault(h => h.HolderId == _context.Users.FirstOrDefault(u => u.UserId == id).HolderId);
             return holder.NationalId;
         }
         #endregion

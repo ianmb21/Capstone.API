@@ -84,15 +84,17 @@ namespace Capstone.Repositories.Classes
                 .ToListAsync();
             */
 
+            var holder = await _context.Users.FirstOrDefaultAsync(r => r.UserId == id);
+
             if (String.IsNullOrEmpty(requestStatus) || requestStatus == "All")
             {
                 return await _context.Requests.Include(r => r.RecordType)
-                    .Where(r => r.HolderId == id).ToListAsync();
+                    .Where(r => r.HolderId == holder.HolderId).ToListAsync();
             }
             else
             {
                 return await _context.Requests.Include(r => r.RecordType)
-                    .Where(r => r.HolderId == id)
+                    .Where(r => r.HolderId == holder.HolderId)
                     .Where(r => r.RequestStatus == requestStatus).ToListAsync();
             }
         }
